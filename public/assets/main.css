@@ -1,0 +1,208 @@
+body {
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    color: #333;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    color: #6660DC;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+input[type="url"] {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.checkbox-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.checkbox-tags .tag {
+    border: 1px solid #6660DC;
+    color: #6660DC;
+    background-color: #f0f0ff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.checkbox-tags .tag input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-tags .tag input[type="checkbox"]:checked+span {
+    font-weight: bold;
+    opacity: 1;
+    color: white;
+    background-color: #6660DC;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+}
+
+.checkbox-tags .tag.active {
+    background-color: #6660DC;
+    color: white;
+    font-weight: bold;
+    opacity: 1;
+}
+
+.fields_wrapper {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+input[type="text"] {
+    padding: 0.40rem 0.65rem;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    background-color: #6660DC;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #4c48b2;
+}
+
+textarea {
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    margin-top: 2rem;
+}
+
+.copy-btn {
+    margin-top: 0.5rem;
+    background-color: transparent;
+    color: #6660DC;
+    border: 1px solid #6660DC;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+    background-color: #6660DC;
+    color: white;
+}
+
+#loading {
+    display: none;
+    color: #6660DC;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #6660DC;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #6660DC;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.regex-help {
+    display: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1rem;
+    max-width: 600px;
+    font-size: 0.9rem;
+    color: #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+.regex-help code {
+    background-color: #f5f5f5;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.regex-help ul,
+.regex-help li {
+    padding: 0;
+    list-style: none;
+}
