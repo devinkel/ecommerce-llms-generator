@@ -3,14 +3,48 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>E-commerce LLMS.TXT Generator</title>
+
+            <!-- Título -->
+        <title>Gerador de LLMS.TXT para E-commerce - Otimize seu SEO com IA</title>
+
+        <!-- Meta Description e Keywords -->
+        <meta name="description" content="Gere automaticamente seu arquivo llms.txt a partir do sitemap.xml da sua loja e otimize sua indexação por LLMs como o ChatGPT.">
+        <meta name="keywords" content="llms.txt, e-commerce, SEO, IA, sitemap, gerador de conteúdo, LLM, GPT, loja virtual">
+        <meta name="author" content="DevInkel">
+
+            <!-- Open Graph para redes sociais -->
+        <meta property="og:title" content="Gerador de LLMS.TXT para E-commerce">
+        <meta property="og:description" content="Otimize sua loja virtual para IA gerando um llms.txt com base no sitemap.">
+        <meta property="og:url" content="https://seudominio.com">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://seudominio.com/assets/og-preview.png">
+
+            <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Gerador de LLMS.TXT para E-commerce">
+        <meta name="twitter:description" content="Otimize sua loja virtual para IA gerando um llms.txt com base no sitemap.">
+        <meta name="twitter:image" content="https://seudominio.com/assets/og-preview.png">
+
+            <!-- Canonical e Favicon -->
+        <link rel="canonical" href="https://seudominio.com/">
+        <link rel="icon" href="/logo.png" type="image/png">
+
+            <!-- Estilos -->
         <link rel="stylesheet" href="/assets/main.css">
     </head>
+    <title>Gerador de LLMS.TXT para E-commerce - Otimize seu SEO com IA</title>
     <body>
         <div class="main__section">
-            <h1>E-commerce LLMS.TXT Generator</h1>
+            <h1>Robô LLMS para E-commerce</h1>
+            <p class="subtitle">
+                Gere seu arquivo <code>llms.txt</code> automaticamente a partir do sitemap da sua loja virtual.
+            </p>
+
         </div>
 
+        <p class="helper-text">
+            Insira a URL do sitemap.xml da sua loja, selecione os tipos de páginas e informe os padrões de URL. Clique em <strong>Gerar llms.txt</strong> para obter um arquivo pronto para IA.
+        </p>
         <form method="POST" action="/generate" onsubmit="showLoading()">
             <input name="url" type="url" placeholder="https://sualoja.com/sitemap.xml" required>
 
@@ -22,19 +56,24 @@
 
             <div class="fields_wrapper">
                 <div id="field_produtos">
-                    <input name="pattern_produtos" type="text" placeholder="Ex: /\/p$/" required>
+                    <input name="pattern_produtos" type="text" placeholder="Produtos Ex: /\/p$/" required>
                 </div>
                 <div id="field_categorias">
-                    <input name="pattern_categorias" type="text" placeholder="Ex: /\/c$/" required>
+                    <input name="pattern_categorias" type="text" placeholder="Categorias Ex: /\/c$/" required>
                 </div>
                 <div id="field_uteis">
-                    <input name="pattern_uteis" type="text" placeholder="Ex: /\/pagina/" required>
+                    <input name="pattern_uteis" type="text" placeholder="Links Úteis Ex: /\/pagina/" required>
                 </div>
             </div>
             <button type="submit">Gerar llms.txt</button>
         </form>
 
         <button type="button" class="copy-btn" onclick="toggleRegexHelp()">📘 Exemplos de Regex</button>
+
+        <div id="loading">
+            <div class="spinner"></div>
+            Gerando arquivo... isso pode levar alguns segundos.
+        </div>
 
         <div id="regexHelp" class="regex-help">
             <p><strong>Exemplos úteis de regex:</strong></p>
@@ -47,10 +86,11 @@
             </ul>
         </div>
 
-        <div id="loading">
-            <div class="spinner"></div>
-            Gerando arquivo... isso pode levar alguns segundos.
+        @if(isset($error))
+        <div class="alert-error">
+            {{ $error }}
         </div>
+        @endif
 
         @if(isset($output))
         <script>document.getElementById('loading').style.display = 'none';</script>
@@ -68,56 +108,12 @@
             </p>
         </footer>
 
+        <script src="/assets/main.js" type="text/javascript"></script>
         <script>
-        function showLoading() {
-            document.getElementById('loading').style.display = 'flex';
-        }
-
-        function copyOutput() {
-            const textarea = document.getElementById('llmsOutput');
-            textarea.select();
-            document.execCommand('copy');
-            alert('Conteúdo copiado!');
-        }
-
-        function toggleField(type) {
-            const checkbox = document.getElementById('chk' + capitalize(type));
-            const field = document.getElementById('field_' + type);
-            const label = checkbox.closest('.tag');
-
-            if (!checkbox || !field) return;
-
-            const input = field.querySelector('input');
-            if (!input) return;
-
-            const isChecked = checkbox.checked;
-
-            field.style.display = isChecked ? 'block' : 'none';
-            input.required = isChecked;
-
-            if (!isChecked) {
-                input.value = '';
-            }
-
-            label.classList.toggle('active', isChecked);
-        }
-
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        // aplica o estado inicial correto dos campos
-        ['produtos', 'categorias', 'uteis'].forEach(type => toggleField(type));
-
+        console.log(window.location.pathname)
         if (window.location.pathname === '/generate') {
             window.history.replaceState({}, '', '/');
         }
-
-        function toggleRegexHelp() {
-            const help = document.getElementById('regexHelp');
-            help.style.display = help.style.display === 'none' ? 'block' : 'none';
-        }
-
         </script>
     </body>
 </html>

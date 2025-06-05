@@ -24,8 +24,27 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
 $app->withEloquent();
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Illuminate\Log\Logger as IlluminateLogger;
+
+$app->singleton(IlluminateLogger::class, function () {
+    $monolog = new Logger('lumen');
+
+    $logPath = __DIR__ . '/../storage/logs/lumen.log';
+    if (!file_exists(dirname($logPath))) {
+        mkdir(dirname($logPath), 0775, true);
+    }
+
+    $monolog->pushHandler(new StreamHandler($logPath, Logger::DEBUG));
+
+    return new \Illuminate\Log\Logger($monolog);
+});
+
+// Também registra a facade Log para funcionar com Log::info()
+$app->alias(IlluminateLogger::class, 'log');
 
 /*
 |--------------------------------------------------------------------------

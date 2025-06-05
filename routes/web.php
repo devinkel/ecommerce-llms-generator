@@ -15,3 +15,8 @@
 
 $router->get('/', 'LlmsController@index');
 $router->post('/generate', 'LlmsController@generate');
+
+
+$router->get('{any:.*}', function () {
+    return redirect('/');
+});
