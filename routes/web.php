@@ -13,8 +13,15 @@
 |
 */
 
-$router->get('/', 'LlmsController@index');
-$router->post('/generate', 'LlmsController@generate');
+$router->get('/', [
+    'as'   => 'home',
+    'uses' => 'LlmsController@index',
+]);
+
+$router->post('/generate', [
+    'as'   => 'llms.generate',
+    'uses' => 'LlmsController@generate',
+]);
 
 
 $router->get('{any:.*}', function () {

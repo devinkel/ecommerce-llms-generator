@@ -45,7 +45,7 @@
         <p class="helper-text">
             Insira a URL do sitemap.xml da sua loja, selecione os tipos de páginas e informe os padrões de URL. Clique em <strong>Gerar llms.txt</strong> para obter um arquivo pronto para IA.
         </p>
-        <form method="POST" action="/generate" onsubmit="showLoading()">
+        <form method="POST" action="{{ route('llms.generate') }}" onsubmit="showLoading()">
             <input name="url" type="url" placeholder="https://sualoja.com/sitemap.xml" required>
 
             <div class="checkbox-tags">

@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lumen
+    networks:
+      - lumen-network
+    restart: unless-stopped
+    environment:
+      APP_ENV: $APP_ENV
+      APP_DEBUG: "false"
+      APP_KEY: $APP_KEY
+      DB_CONNECTION: $DB_CONNECTION
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_DATABASE: $DB_DATABASE
+      DB_USERNAME: $DB_USERNAME
+      DB_PASSWORD: $DB_PASSWORD
+    expose:
+      - 80
+    volumes:
+      - ./:/var/www:cached
+    # (Aqui todo o seu projeto fica em /var/www dentro de “app”)
+
+  web:
+    image: nginx:stable-alpine
+    container_name: nginx
+    depends_on:
+      - app
+    networks:
+      - lumen-network
+    ports:
+      - "80:80"
+    volumes:
+      # 1) Monta somente a pasta public para /var/www/public:
+      - ./public:/var/www/public:ro
+      # 2) Monta o default.conf na pasta de conf do Nginx:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+networks:
+  lumen-network:
+    driver: bridge
