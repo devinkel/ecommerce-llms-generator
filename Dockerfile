@@ -13,7 +13,10 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     git unzip pkg-config libbrotli-dev \
     && rm -rf /var/lib/apt/lists/*
-\
+
+# 3. Remove todas as file capabilities do executável frankenphp
+#    evitando o erro de “Operation not permitted” no Render
+RUN setcap -r /usr/local/bin/frankenphp
 
 # 4) Copia arquivos de composer para cache de dependências
 COPY composer.json composer.lock ./
