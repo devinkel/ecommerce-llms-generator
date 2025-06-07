@@ -11,7 +11,7 @@ RUN curl -sS https://getcomposer.org/installer \
 # 2) Instala dependências de SO necessárias antes de compilar extensões
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    git unzip pkg-config libbrotli-dev \
+    git unzip libcap2-bin \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Remove todas as file capabilities do executável frankenphp
