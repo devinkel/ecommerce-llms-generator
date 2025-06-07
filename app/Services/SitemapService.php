@@ -25,7 +25,7 @@ class SitemapService
     public function __construct()
     {
         // Use Guzzle with a 10-second timeout for sitemap requests
-        $this->httpClient = new Client(['timeout' => 10]);
+        $this->httpClient = new Client(['timeout' => 30]);
     }
 
     /**

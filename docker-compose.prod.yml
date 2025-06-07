@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  app:
+    # Usa mesma construção do base
+    extends:
+      service: app
+      file: docker-compose.yml
+
+    # Ambiente de produção
+    environment:
+      - APP_ENV=production
+      - SERVER_NAME=example.com
+
+    # Expor HTTP e HTTPS
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+
+    # Monta Caddyfile de produção e volumes para certs
+    volumes:
+      - ./Caddyfile.prod:/etc/frankenphp/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+    restart: always
+
+volumes:
+  # Volumes onde o Caddy salva certificados e dados
+  caddy_data:
+  caddy_config:
