@@ -13,9 +13,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     git unzip pkg-config libbrotli-dev \
     && rm -rf /var/lib/apt/lists/*
-
-# 3) Usa install-php-extensions para zip e swoole
-RUN install-php-extensions zip swoole
+\
 
 # 4) Copia arquivos de composer para cache de dependências
 COPY composer.json composer.lock ./
@@ -28,4 +26,7 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["frankenphp", "run"]
+ENTRYPOINT ["frankenphp", "run"]
+
+# (Opcional) Ainda é possível passar parâmetros padrão
+CMD []
