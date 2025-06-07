@@ -1,35 +1,23 @@
-# Dockerfile
-
 FROM dunglas/frankenphp:latest-php8.3-bookworm
-
 WORKDIR /app
 
-# 1) Instala o Composer globalmente
+# Composer + zip/git/unzip (como antes)
 RUN curl -sS https://getcomposer.org/installer \
-    | php -- --install-dir=/usr/local/bin --filename=composer
-
-# 2) Instala dependências de SO necessárias antes de compilar extensões
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    git unzip libcap2-bin \
+    | php -- --install-dir=/usr/local/bin --filename=composer \
+    && install-php-extensions zip \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends git unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# 3. Remove todas as file capabilities do executável frankenphp
-#    evitando o erro de “Operation not permitted” no Render
-RUN setcap -r /usr/local/bin/frankenphp
-
-# 4) Copia arquivos de composer para cache de dependências
 COPY composer.json composer.lock ./
-
-# 5) Instala dependências PHP
 RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
 
-# 6) Copia o restante da aplicação
 COPY . .
 
-EXPOSE 80
+# EXPOSE a porta não-privilegiada 8080
+EXPOSE 8080
 
+# Inicia o FrankenPHP (Caddy+Swoole) —
+# ele vai ler SERVER_NAME e abrir na porta certa
 ENTRYPOINT ["frankenphp", "run"]
-
-# (Opcional) Ainda é possível passar parâmetros padrão
 CMD []
