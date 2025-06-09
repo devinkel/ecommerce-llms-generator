@@ -18,6 +18,10 @@ $router->get('/', [
     'uses' => 'LlmsController@index',
 ]);
 
+$router->get('/ping', function () {
+    return response()->json(['pong' => true]);
+});
+
 $router->post('/generate', [
     'as'   => 'llms.generate',
     'uses' => 'LlmsController@generate',
