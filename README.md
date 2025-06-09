@@ -1,4 +1,4 @@
-[Read this in English](tab=readme-ov-file#-llmstxt-generator-for-e-commerce)
+[Read this in English](#-llmstxt-generator-for-e-commerce)
 
 # 🤖 LLMs.txt Generator para E-commerce
 
