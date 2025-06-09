@@ -1,3 +1,11 @@
+# Build stage: Composer com dependências otimizadas
+FROM composer:2 AS builder
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --classmap-authoritative
+
+
 FROM php:8.3-fpm-alpine
 
 # Instalar nginx e dependências
