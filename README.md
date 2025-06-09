@@ -1,5 +1,7 @@
 [Read this in English](#-llmstxt-generator-for-e-commerce)
 
+[🔴 Live Demo](https://ecommerce-llms-generator.onrender.com/)
+
 # 🤖 LLMs.txt Generator para E-commerce
 
 Este projeto é um crawler inteligente feito com **Lumen** que transforma o seu `sitemap.xml` em um arquivo `.txt` legível por LLMs (Modelos de Linguagem). Ideal para quem quer **indexar melhor produtos, categorias e links úteis** no seu e-commerce, otimizando a entrada de dados em sistemas baseados em IA.
