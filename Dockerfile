@@ -30,7 +30,7 @@ RUN chmod +x /start.sh
 RUN mkdir -p /var/log/nginx /run/nginx
 
 # Corrige permissões de escrita do Lumen
-RUN chmod -R 777 storage bootstrap/cache
+RUN chmod -R 777 storage
 
 # Exportar porta (Render usa variável $PORT)
 ENV PORT=8080
