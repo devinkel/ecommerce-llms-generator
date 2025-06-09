@@ -1,4 +1,4 @@
-[Read this in English](#llms-txt-generator-for-ecommerce)
+[Read this in English](#-llmstxt-generator-for-e-commerce)
 
 # 🤖 LLMs.txt Generator para E-commerce
 
