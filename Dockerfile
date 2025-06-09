@@ -15,6 +15,8 @@ RUN apk add --no-cache nginx supervisor bash \
 
 # Diretório de trabalho
 WORKDIR /var/www
+# Copia dependências
+COPY --from=builder /app/vendor ./vendor
 
 # Copia arquivos da aplicação
 COPY . .
