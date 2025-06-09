@@ -102,9 +102,6 @@
             <p>
                 ⭐ Curta o projeto no
                 <a href="https://github.com/devinkel/ecommerce-llms-generator" target="_blank">GitHub</a>
-                &nbsp;|&nbsp;
-                ☕ Apoie com um café no
-                <a href="https://www.buymeacoffee.com/seuusuario" target="_blank">Buy Me a Coffee</a>
             </p>
         </footer>
 
