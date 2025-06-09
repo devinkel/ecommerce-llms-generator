@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
             <!-- Título -->
         <title>Gerador de LLMS.TXT para E-commerce - Otimize seu SEO com IA</title>
 
@@ -15,18 +15,18 @@
             <!-- Open Graph para redes sociais -->
         <meta property="og:title" content="Gerador de LLMS.TXT para E-commerce">
         <meta property="og:description" content="Otimize sua loja virtual para IA gerando um llms.txt com base no sitemap.">
-        <meta property="og:url" content="https://seudominio.com">
+        <meta property="og:url" content="https://ecommerce-llms-generator.onrender.com">
         <meta property="og:type" content="website">
-        <meta property="og:image" content="https://seudominio.com/assets/og-preview.png">
+        <meta property="og:image" content="https://ecommerce-llms-generator.onrender.com/assets/logo.png">
 
             <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Gerador de LLMS.TXT para E-commerce">
         <meta name="twitter:description" content="Otimize sua loja virtual para IA gerando um llms.txt com base no sitemap.">
-        <meta name="twitter:image" content="https://seudominio.com/assets/og-preview.png">
+        <meta name="twitter:image" content="https://ecommerce-llms-generator.onrender.com/assets/og-preview.png">
 
             <!-- Canonical e Favicon -->
-        <link rel="canonical" href="https://seudominio.com/">
+        <link rel="canonical" href="https://ecommerce-llms-generator.onrender.com/">
         <link rel="icon" href="/logo.png" type="image/png">
 
             <!-- Estilos -->
