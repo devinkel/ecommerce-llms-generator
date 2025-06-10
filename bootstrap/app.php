@@ -100,6 +100,11 @@ $app->configure('llms');
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+$app->middleware([
+    App\Http\Middleware\ForceHttps::class,
+]);
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

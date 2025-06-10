@@ -43,7 +43,7 @@ class LlmsController extends Controller
      */
     public function index()
     {
-        return View::make('home');
+        return view('home');
     }
 
     /**
@@ -78,7 +78,7 @@ class LlmsController extends Controller
         try {
             $requestItems = $this->sitemapService->extractRequests($baseUrl, $patterns);
         } catch (\Throwable $e) {
-            return View::make('home', [
+            return view('home', [
                 'output' => null,
                 'error'  => "Erro ao acessar sitemap.xml: {$e->getMessage()}",
             ]);
@@ -86,7 +86,7 @@ class LlmsController extends Controller
 
         // If no URLs matched patterns, early return with error
         if ($requestItems->isEmpty()) {
-            return View::make('home', [
+            return view('home', [
                 'output' => null,
                 'error'  => 'Nenhuma URL do sitemap corresponde aos padrões informados.',
             ]);
@@ -147,7 +147,7 @@ class LlmsController extends Controller
             }
         }
 
-        return View::make('home', [
+        return view('home', [
             'output' => $markdown,
             'error'  => null,
         ]);
