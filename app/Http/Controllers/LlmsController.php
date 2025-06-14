@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\View;
 use App\Services\SitemapService;
 use App\Services\PageCrawlerService;
 
-use Validator;
-
 /**
  * LlmsController
  *
@@ -19,9 +17,6 @@ use Validator;
  * 2. Delegate sitemap parsing to SitemapService.
  * 3. Delegate page crawling/extraction to PageCrawlerService.
  * 4. Assemble Markdown output and return view.
- *
- * By offloading crawling logic to services, this controller remains slim
- * and focused on orchestration and request/response handling.
  */
 class LlmsController extends Controller
 {
@@ -38,8 +33,6 @@ class LlmsController extends Controller
 
     /**
      * Show the form/home view.
-     *
-     * No business logic here—simply returns the Blade (or plain) view.
      */
     public function index()
     {
@@ -47,12 +40,7 @@ class LlmsController extends Controller
     }
 
     /**
-     * Handle the POST /generate request:
-     * 1. Validate 'url' and optional regex patterns for each type.
-     * 2. Call SitemapService::extractRequests() to get URLs by type.
-     * 3. If no URLs match, return error to view.
-     * 4. Call PageCrawlerService::crawlAll() to fetch & parse pages concurrently.
-     * 5. Format results into Markdown and pass to view.
+     * Handle the POST /generate request.
      */
     public function generate(Request $request)
     {
@@ -64,17 +52,14 @@ class LlmsController extends Controller
             'pattern_uteis'      => 'nullable|string',
         ]);
 
-        // Remove trailing slash from sitemap URL
-        $baseUrl = rtrim($data['url'], '/');
-
-        // Step 2: Build pattern array
+        $baseUrl  = rtrim($data['url'], '/');
         $patterns = [
             'Produtos'    => $data['pattern_produtos']   ?? '',
             'Categorias'  => $data['pattern_categorias'] ?? '',
             'Links Úteis' => $data['pattern_uteis']      ?? '',
         ];
 
-        // Step 3: Delegate sitemap parsing to service
+        // Step 2: Extract URLs from sitemap
         try {
             $requestItems = $this->sitemapService->extractRequests($baseUrl, $patterns);
         } catch (\Throwable $e) {
@@ -84,7 +69,6 @@ class LlmsController extends Controller
             ]);
         }
 
-        // If no URLs matched patterns, early return with error
         if ($requestItems->isEmpty()) {
             return view('home', [
                 'output' => null,
@@ -92,58 +76,53 @@ class LlmsController extends Controller
             ]);
         }
 
-        // Step 4: Delegate page crawling and structured extraction
+        // Step 3: Crawl pages and extract data
         $results = $this->crawlerService->crawlAll($requestItems->toArray());
 
-        // Step 5: Build Markdown output
-        $urlFormatted = substr($baseUrl, 0, strrpos($baseUrl, '/'));
-        $markdown   = "# E-commerce: {$urlFormatted} \n\n";
+        // Step 4: Build Markdown output
+        $markdown = "# E-commerce: {$baseUrl}\n\n";
 
-        if (!empty($results['Produtos'])) {
-            $markdown .= "## Produtos \n\n";
-            foreach ($results['Produtos'] as $prod) {
-                $markdown .= "- **Título:** {$prod['title']}  \n";
-                $markdown .= "  **URL:** {$prod['url']}  \n";
+        foreach (['Produtos', 'Categorias', 'Links Úteis'] as $type) {
+            if (empty($results[$type])) {
+                continue;
+            }
+            $markdown .= "## {$type}\n\n";
+            foreach ($results[$type] as $item) {
+                $markdown .= "- **Título:** {$item['title']}\n";
+                $markdown .= "  **URL:** {$item['url']}\n";
 
-                if (!empty($prod['price'])) {
-                    $formattedPrice = number_format((float)$prod['price'], 2, ',', '.');
-                    $markdown .= "  **Preço:** R$ {$formattedPrice}  \n";
+                // Produto-specific fields
+                if ($type === 'Produtos') {
+                    if (!empty($item['price'])) {
+                        $formattedPrice = number_format((float)$item['price'], 2, ',', '.');
+                        $markdown        .= "  **Preço:** R$ {$formattedPrice}\n";
+                    }
+                    if (!empty($item['currency'])) {
+                        $markdown .= "  **Moeda:** {$item['currency']}\n";
+                    }
+                    if (!empty($item['availability'])) {
+                        $markdown .= "  **Disponibilidade:** {$item['availability']}\n";
+                    }
+                    if (!empty($item['condition'])) {
+                        $markdown .= "  **Condição:** {$item['condition']}\n";
+                    }
+                    if (!empty($item['returnDays'])) {
+                        $markdown .= "  **Prazo de devolução:** {$item['returnDays']} dias\n";
+                    }
+                    if (!empty($item['returnFees'])) {
+                        $markdown .= "  **Taxa de devolução:** {$item['returnFees']}\n";
+                    }
+                    if (!empty($item['returnMethod'])) {
+                        $markdown .= "  **Método de devolução:** {$item['returnMethod']}\n";
+                    }
                 }
-                if (!empty($prod['currency'])) {
-                    $markdown .= "  **Moeda:** {$prod['currency']}  \n";
+
+                // Generic SEO tags
+                if (!empty($item['metaDescription'])) {
+                    $markdown .= "  **Descrição:** {$item['metaDescription']}\n";
                 }
-                if (!empty($prod['availability'])) {
-                    $markdown .= "  **Disponibilidade:** {$prod['availability']}  \n";
-                }
-                if (!empty($prod['condition'])) {
-                    $markdown .= "  **Condição:** {$prod['condition']}  \n";
-                }
-                if (!empty($prod['returnDays'])) {
-                    $markdown .= "  **Prazo para devolução:** {$prod['returnDays']} dias  \n";
-                }
-                if (!empty($prod['returnFees'])) {
-                    $markdown .= "  **Frete da devolução:** {$prod['returnFees']}  \n";
-                }
-                if (!empty($prod['returnMethod'])) {
-                    $markdown .= "  **Forma de devolução:** {$prod['returnMethod']}  \n";
-                }
+
                 $markdown .= "\n";
-            }
-        }
-
-        if (!empty($results['Categorias'])) {
-            $markdown .= "## Categorias\n\n";
-            foreach ($results['Categorias'] as $cat) {
-                $markdown .= "- **Nome:** {$cat['name']}  \n";
-                $markdown .= "  **URL:** {$cat['url']}  \n\n";
-            }
-        }
-
-        if (!empty($results['Links Úteis'])) {
-            $markdown .= "## Links Úteis\n\n";
-            foreach ($results['Links Úteis'] as $link) {
-                $markdown .= "- **Título da página:** {$link['title']}  \n";
-                $markdown .= "  **URL:** {$link['url']}  \n\n";
             }
         }
 
